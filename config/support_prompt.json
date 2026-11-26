@@ -1,0 +1,23 @@
+{
+  "reference_config": "../run/support_prompt/reference_prepared_config.json",
+  "output_dir": "run/support_prompt",
+  "checkpoint_dir": "checkpoint/support_prompt",
+  "heldout": [
+    "appendix_cls",
+    "private_image_cls_appendix",
+    "public_image_seg_mmotu"
+  ],
+  "evaluate": [
+    "appendix_cls",
+    "public_image_seg_mmotu"
+  ],
+  "shots": 5,
+  "train_shots": 3,
+  "queries": 2,
+  "episodes_per_task": 400,
+  "encoder_batch": 4,
+  "lr": 0.001,
+  "model": {
+    "image_size": 256
+  }
+}

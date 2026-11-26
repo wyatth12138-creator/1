@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tum-us"
+version = "0.6.3"
+description = "Task-utility memory learning for generalist ultrasound under unpaired supervision"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.4.1", "torchvision>=0.19.1", "numpy>=1.24", "Pillow>=10", "hydra-core>=1.3.2", "iopath>=0.1.10", "PyYAML>=6", "portalocker>=2", "tqdm>=4", "typing_extensions>=4"]
+
+[project.optional-dependencies]
+preprocess = ["SimpleITK>=2.3", "opencv-python-headless>=4.8", "scikit-image>=0.22"]
+evaluation = ["scipy>=1.10"]
+test = ["pytest>=8"]
+
+[tool.setuptools]
+packages = ["_tum_us_assets", "sam2", "sam2.modeling", "sam2.modeling.backbones", "sam2.modeling.sam", "sam2.utils", "tum_us", "tum_us.data", "tum_us.engine", "tum_us.generalist", "tum_us.model", "tum_us.transfer", "utils"]
+package-dir = {tum_us = "utils/tum_us", _tum_us_assets = "model", utils = "utils", sam2 = "model/vendor/sam2"}
+
+[tool.setuptools.package-data]
+_tum_us_assets = ["core/*.py", "generalist/*.py", "transfer/*.py"]
+sam2 = ["**/*.yaml", "csrc/*.cu"]

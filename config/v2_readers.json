@@ -1,0 +1,865 @@
+{
+  "data_root": "data",
+  "output_dir": "run/v2_readers",
+  "model": {
+    "backbone": "small",
+    "image_size": 256,
+    "memory_capacity": 4,
+    "policy": "fifo",
+    "checkpoint": "pre_checkpoints/sam2.1_hiera_small.pt",
+    "freeze_trunk": true,
+    "joint_ceus_memory": false,
+    "query_propagation": false,
+    "object_memory": true,
+    "private_seg_calibration": false,
+    "num_label_spaces": 6,
+    "support_profiles": [
+      [
+        0,
+        2,
+        0,
+        1
+      ],
+      [
+        0,
+        3,
+        0,
+        4
+      ],
+      [
+        0,
+        4,
+        0,
+        8
+      ],
+      [
+        0,
+        5,
+        0,
+        9
+      ],
+      [
+        0,
+        5,
+        0,
+        10
+      ],
+      [
+        0,
+        7,
+        0,
+        13
+      ],
+      [
+        0,
+        8,
+        0,
+        11
+      ],
+      [
+        0,
+        9,
+        0,
+        2
+      ],
+      [
+        0,
+        9,
+        0,
+        3
+      ],
+      [
+        1,
+        0,
+        4,
+        0
+      ],
+      [
+        1,
+        1,
+        1,
+        19
+      ],
+      [
+        1,
+        2,
+        0,
+        1
+      ],
+      [
+        1,
+        6,
+        2,
+        14
+      ],
+      [
+        1,
+        6,
+        3,
+        14
+      ],
+      [
+        1,
+        6,
+        5,
+        14
+      ],
+      [
+        1,
+        8,
+        0,
+        11
+      ],
+      [
+        1,
+        9,
+        0,
+        2
+      ],
+      [
+        2,
+        4,
+        0,
+        5
+      ],
+      [
+        2,
+        4,
+        0,
+        18
+      ],
+      [
+        3,
+        2,
+        0,
+        15
+      ],
+      [
+        3,
+        9,
+        0,
+        16
+      ],
+      [
+        4,
+        2,
+        0,
+        1
+      ],
+      [
+        4,
+        9,
+        0,
+        2
+      ]
+    ],
+    "support_rule": "shared"
+  },
+  "training": {
+    "seed": 3407,
+    "seeds": [
+      3407,
+      3408,
+      3409
+    ],
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "reader_updates": 1233,
+    "effective_batch": 16,
+    "device": "auto",
+    "amp": true,
+    "multitask": {
+      "enabled": false
+    },
+    "post_init_seed": 4428,
+    "reader_sampling": "full_pass",
+    "checkpoint_every": 100,
+    "reader_log_every": 10
+  },
+  "video": {
+    "train_frames": 16,
+    "eval_frames": 32,
+    "annotation_cache_mb": 8
+  },
+  "prepare": {
+    "exclude_invalid_groups": true
+  },
+  "utility": {
+    "capacities": [
+      4
+    ],
+    "horizons": [
+      1,
+      2,
+      4
+    ],
+    "max_states": 2,
+    "behavior_policy": "fifo",
+    "continuation_policy": "fifo",
+    "recollection_rounds": 0,
+    "run_expand": false,
+    "reuse_prefix": true,
+    "target_objective": "task",
+    "tie_continuation_to_behavior": true,
+    "variants": []
+  },
+  "controller": {
+    "lr": 0.0003,
+    "updates": 1200,
+    "ranking_weight": 1.0,
+    "replay_fraction": 0.5
+  },
+  "evaluation": {
+    "mask_size": 512,
+    "policies": [
+      "fifo"
+    ],
+    "capacities": [
+      4
+    ],
+    "bootstrap": 0,
+    "seed": 3407,
+    "report_case_cap": 100,
+    "split": "dev",
+    "checkpoints": {},
+    "hd95": true
+  },
+  "endpoints": {
+    "ceus_breast": {
+      "kind": "classification",
+      "task": "ceus_cls",
+      "dataset_ids": [
+        "private/ceus_cls/Breast"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "ceus_thyroid": {
+      "kind": "classification",
+      "task": "ceus_cls",
+      "dataset_ids": [
+        "private/ceus_cls/Thyroid"
+      ],
+      "anatomy_id": 9,
+      "target_ids": [
+        2
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_cls_appendix": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "private/image_cls/Appendix"
+      ],
+      "anatomy_id": 1,
+      "target_ids": [
+        19
+      ],
+      "label_space_id": 1,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_cls_breast": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "private/image_cls/Breast"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_cls_jh_hc": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "private/image_cls/JH_HC"
+      ],
+      "anatomy_id": 0,
+      "target_ids": [
+        0
+      ],
+      "label_space_id": 4,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_cls_liver": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "private/image_cls/Liver"
+      ],
+      "anatomy_id": 6,
+      "target_ids": [
+        14
+      ],
+      "label_space_id": 2,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_cls_livercirrhosiscui": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "private/image_cls/LiverCirrhosisCui"
+      ],
+      "anatomy_id": 6,
+      "target_ids": [
+        14
+      ],
+      "label_space_id": 5,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_cls_livercirrhosisyang": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "private/image_cls/LiverCirrhosisYang"
+      ],
+      "anatomy_id": 6,
+      "target_ids": [
+        14
+      ],
+      "label_space_id": 3,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_cls_prostate": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "private/image_cls/Prostate"
+      ],
+      "anatomy_id": 8,
+      "target_ids": [
+        11
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_seg_breast": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "private/image_seg/Breast"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_seg_cardiac": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "private/image_seg/Cardiac"
+      ],
+      "anatomy_id": 4,
+      "target_ids": [
+        8
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_seg_fetal_head": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "private/image_seg/Fetal_Head"
+      ],
+      "anatomy_id": 3,
+      "target_ids": [
+        4
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_seg_kidney": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "private/image_seg/Kidney"
+      ],
+      "anatomy_id": 5,
+      "target_ids": [
+        9
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_seg_prostate": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "private/image_seg/Prostate"
+      ],
+      "anatomy_id": 8,
+      "target_ids": [
+        11
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_image_seg_thyroid": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "private/image_seg/Thyroid"
+      ],
+      "anatomy_id": 9,
+      "target_ids": [
+        2
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "private_video_seg_cardiacch": {
+      "kind": "segmentation",
+      "task": "video_seg",
+      "dataset_ids": [
+        "private/video_seg/CardiacCH"
+      ],
+      "anatomy_id": 4,
+      "target_ids": [
+        18
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null,
+      "annotation_reference_status": "provided_indexed_provenance_unknown",
+      "sampling_profile": "cardiac_full_video"
+    },
+    "appendix_cls": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "public/image_cls/Appendix"
+      ],
+      "anatomy_id": 1,
+      "target_ids": [
+        19
+      ],
+      "label_space_id": 1,
+      "role": "train",
+      "label_budget": null
+    },
+    "bus_cls": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "public/image_cls/BUS-BRA"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "public_image_cls_fatty_liver": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "public/image_cls/Fatty-Liver"
+      ],
+      "anatomy_id": 6,
+      "target_ids": [
+        14
+      ],
+      "label_space_id": 2,
+      "role": "train",
+      "label_budget": null
+    },
+    "public_image_cls_tn3k": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "public/image_cls/TN3K"
+      ],
+      "anatomy_id": 9,
+      "target_ids": [
+        2
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "public_image_cls_udiat": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "public/image_cls/UDIAT"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "public_image_seg_bus_bra": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/BUS-BRA"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "public_image_seg_busi": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/BUSI"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "bus_seg": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/BUSIS"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "public_image_seg_ddti": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/DDTI"
+      ],
+      "anatomy_id": 9,
+      "target_ids": [
+        2
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "fetal_seg": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/Fetal_HC"
+      ],
+      "anatomy_id": 3,
+      "target_ids": [
+        4
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "public_image_seg_mmotu": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/MMOTU"
+      ],
+      "anatomy_id": 7,
+      "target_ids": [
+        13
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "public_image_seg_tg3k": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/TG3K"
+      ],
+      "anatomy_id": 9,
+      "target_ids": [
+        3
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "public_image_seg_tn3k": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/TN3K"
+      ],
+      "anatomy_id": 9,
+      "target_ids": [
+        2
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "public_image_seg_udiat": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/UDIAT"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "public_image_seg_kidneyus_capsule": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/kidneyUS_capsule"
+      ],
+      "anatomy_id": 5,
+      "target_ids": [
+        10
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "camus": {
+      "kind": "segmentation",
+      "task": "video_seg",
+      "dataset_ids": [
+        "public/video_seg/CAMUS"
+      ],
+      "anatomy_id": 4,
+      "target_ids": [
+        5
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null,
+      "sampling_profile": "camus_sequence",
+      "annotation_reference_status": "provided_indexed_provenance_unknown"
+    },
+    "echonet": {
+      "kind": "segmentation",
+      "task": "video_seg",
+      "dataset_ids": [
+        "public/video_seg/EchoNet"
+      ],
+      "anatomy_id": 4,
+      "target_ids": [
+        5
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null,
+      "sampling_profile": "echonet_interval",
+      "annotation_reference_status": "provided_indexed_provenance_unknown"
+    },
+    "ceus_seg_breastceus": {
+      "kind": "segmentation",
+      "task": "ceus_seg",
+      "dataset_ids": [
+        "private/ceus_seg/BreastCEUS"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        15
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null,
+      "annotation_reference_status": "user_confirmed_stored_center"
+    },
+    "ceus_seg_breast": {
+      "kind": "segmentation",
+      "task": "ceus_seg",
+      "dataset_ids": [
+        "private/ceus_seg/Breast"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        15
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null,
+      "annotation_reference_status": "user_confirmed_stored_center"
+    },
+    "ceus_seg_thyroid": {
+      "kind": "segmentation",
+      "task": "ceus_seg",
+      "dataset_ids": [
+        "private/ceus_seg/Thyroid"
+      ],
+      "anatomy_id": 9,
+      "target_ids": [
+        16
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null,
+      "annotation_reference_status": "user_confirmed_stored_center"
+    },
+    "ceus_seg_thyroidceus": {
+      "kind": "segmentation",
+      "task": "ceus_seg",
+      "dataset_ids": [
+        "private/ceus_seg/ThyroidCEUS"
+      ],
+      "anatomy_id": 9,
+      "target_ids": [
+        16
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null,
+      "annotation_reference_status": "user_confirmed_stored_center"
+    }
+  },
+  "endpoint_sets": {
+    "readers": [
+      "ceus_breast",
+      "ceus_thyroid",
+      "private_image_cls_appendix",
+      "private_image_cls_breast",
+      "private_image_cls_jh_hc",
+      "private_image_cls_liver",
+      "private_image_cls_livercirrhosiscui",
+      "private_image_cls_livercirrhosisyang",
+      "private_image_cls_prostate",
+      "private_image_seg_breast",
+      "private_image_seg_cardiac",
+      "private_image_seg_fetal_head",
+      "private_image_seg_kidney",
+      "private_image_seg_prostate",
+      "private_image_seg_thyroid",
+      "private_video_seg_cardiacch",
+      "appendix_cls",
+      "bus_cls",
+      "public_image_cls_fatty_liver",
+      "public_image_cls_tn3k",
+      "public_image_cls_udiat",
+      "public_image_seg_bus_bra",
+      "public_image_seg_busi",
+      "bus_seg",
+      "public_image_seg_ddti",
+      "fetal_seg",
+      "public_image_seg_mmotu",
+      "public_image_seg_tg3k",
+      "public_image_seg_tn3k",
+      "public_image_seg_udiat",
+      "public_image_seg_kidneyus_capsule",
+      "camus",
+      "echonet",
+      "ceus_seg_breastceus",
+      "ceus_seg_breast",
+      "ceus_seg_thyroid",
+      "ceus_seg_thyroidceus"
+    ],
+    "collect": [
+      "ceus_breast",
+      "ceus_thyroid",
+      "private_video_seg_cardiacch",
+      "camus",
+      "echonet",
+      "ceus_seg_breastceus",
+      "ceus_seg_breast",
+      "ceus_seg_thyroid",
+      "ceus_seg_thyroidceus"
+    ],
+    "evaluate": [
+      "ceus_breast",
+      "ceus_thyroid",
+      "private_image_cls_appendix",
+      "private_image_cls_breast",
+      "private_image_cls_jh_hc",
+      "private_image_cls_liver",
+      "private_image_cls_livercirrhosiscui",
+      "private_image_cls_livercirrhosisyang",
+      "private_image_cls_prostate",
+      "private_image_seg_breast",
+      "private_image_seg_cardiac",
+      "private_image_seg_fetal_head",
+      "private_image_seg_kidney",
+      "private_image_seg_prostate",
+      "private_image_seg_thyroid",
+      "private_video_seg_cardiacch",
+      "appendix_cls",
+      "bus_cls",
+      "public_image_cls_fatty_liver",
+      "public_image_cls_tn3k",
+      "public_image_cls_udiat",
+      "public_image_seg_bus_bra",
+      "public_image_seg_busi",
+      "bus_seg",
+      "public_image_seg_ddti",
+      "fetal_seg",
+      "public_image_seg_mmotu",
+      "public_image_seg_tg3k",
+      "public_image_seg_tn3k",
+      "public_image_seg_udiat",
+      "public_image_seg_kidneyus_capsule",
+      "camus",
+      "echonet",
+      "ceus_seg_breastceus",
+      "ceus_seg_breast",
+      "ceus_seg_thyroid",
+      "ceus_seg_thyroidceus"
+    ],
+    "expand_old": [],
+    "expand_new": []
+  },
+  "protocol_note": "V2 reader architecture and 37-endpoint template. Supply local inventory and frame maps before training.",
+  "object_study": {
+    "arms": [
+      "native",
+      "query",
+      "object",
+      "combined"
+    ]
+  },
+  "replace_endpoints": true,
+  "allow_final_evaluation": false,
+  "support_guidance": {
+    "shots": 5,
+    "encoder_batch": 8
+  }
+}

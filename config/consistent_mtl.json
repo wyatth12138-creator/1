@@ -1,0 +1,283 @@
+{
+  "data_root": "data",
+  "output_dir": "run",
+  "model": {
+    "backbone": "small",
+    "image_size": 256,
+    "memory_capacity": 4,
+    "policy": "fifo",
+    "checkpoint": "pre_checkpoints/sam2.1_hiera_small.pt",
+    "freeze_trunk": true,
+    "joint_ceus_memory": false,
+    "query_propagation": true,
+    "object_memory": true,
+    "private_seg_calibration": true
+  },
+  "training": {
+    "seed": 3407,
+    "seeds": [
+      3407,
+      3408,
+      3409
+    ],
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "reader_updates": 1200,
+    "effective_batch": 16,
+    "device": "auto",
+    "amp": true,
+    "multitask": {
+      "enabled": true,
+      "optimizer": "consistent",
+      "alignment_weight": 1.0,
+      "max_private_ratio": 0.1,
+      "alignment_every": 4,
+      "selection": {
+        "enabled": true,
+        "warmup_updates": 200,
+        "refresh_every": 400,
+        "candidate_limit": 64,
+        "fraction": 0.5,
+        "pool_factor": 4
+      },
+      "alignment_max_frames": 4
+    },
+    "post_init_seed": 4428
+  },
+  "video": {
+    "train_frames": 16,
+    "eval_frames": 32,
+    "annotation_cache_mb": 8
+  },
+  "prepare": {
+    "exclude_invalid_groups": true
+  },
+  "utility": {
+    "capacities": [
+      2,
+      4,
+      8
+    ],
+    "horizons": [
+      1,
+      2,
+      4
+    ],
+    "max_states": 2,
+    "behavior_policy": "fifo",
+    "continuation_policy": "fifo",
+    "recollection_rounds": 1,
+    "run_expand": true,
+    "variants": [
+      "fixed_state",
+      "task_agnostic",
+      "seg_specialist",
+      "cls_specialist"
+    ]
+  },
+  "controller": {
+    "lr": 0.0003,
+    "updates": 1200,
+    "ranking_weight": 1.0,
+    "replay_fraction": 0.5
+  },
+  "evaluation": {
+    "policies": [
+      "none",
+      "fifo",
+      "random",
+      "quality",
+      "novelty",
+      "tum",
+      "full"
+    ],
+    "capacities": [
+      2,
+      4,
+      6,
+      8
+    ],
+    "bootstrap": 1000,
+    "seed": 3407,
+    "report_case_cap": 100
+  },
+  "endpoints": {
+    "bus_cls": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "public/image_cls/BUS-BRA"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "appendix_cls": {
+      "kind": "classification",
+      "task": "image_cls",
+      "dataset_ids": [
+        "public/image_cls/Appendix"
+      ],
+      "anatomy_id": 1,
+      "target_ids": [
+        19
+      ],
+      "label_space_id": 1,
+      "role": "train",
+      "label_budget": null
+    },
+    "bus_seg": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/BUSIS"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "fetal_seg": {
+      "kind": "segmentation",
+      "task": "image_seg",
+      "dataset_ids": [
+        "public/image_seg/Fetal_HC"
+      ],
+      "anatomy_id": 3,
+      "target_ids": [
+        4
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "camus": {
+      "kind": "segmentation",
+      "task": "video_seg",
+      "dataset_ids": [
+        "public/video_seg/CAMUS"
+      ],
+      "anatomy_id": 4,
+      "target_ids": [
+        5
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null,
+      "sampling_profile": "camus_sequence"
+    },
+    "ceus_breast": {
+      "kind": "classification",
+      "task": "ceus_cls",
+      "dataset_ids": [
+        "private/ceus_cls/Breast"
+      ],
+      "anatomy_id": 2,
+      "target_ids": [
+        1
+      ],
+      "label_space_id": 0,
+      "role": "train",
+      "label_budget": null
+    },
+    "echonet": {
+      "kind": "segmentation",
+      "task": "video_seg",
+      "dataset_ids": [
+        "public/video_seg/EchoNet"
+      ],
+      "anatomy_id": 4,
+      "target_ids": [
+        5
+      ],
+      "label_space_id": 0,
+      "role": "heldout_source",
+      "label_budget": null,
+      "sampling_profile": "echonet_interval"
+    },
+    "ceus_liver": {
+      "kind": "classification",
+      "task": "ceus_cls",
+      "dataset_ids": [
+        "private/ceus_cls/Liver"
+      ],
+      "anatomy_id": 6,
+      "target_ids": [
+        14
+      ],
+      "label_space_id": 0,
+      "role": "heldout_source",
+      "label_budget": null
+    },
+    "ceus_thyroid": {
+      "kind": "classification",
+      "task": "ceus_cls",
+      "dataset_ids": [
+        "private/ceus_cls/Thyroid"
+      ],
+      "anatomy_id": 9,
+      "target_ids": [
+        2
+      ],
+      "label_space_id": 0,
+      "role": "heldout_source",
+      "label_budget": null
+    }
+  },
+  "endpoint_sets": {
+    "readers": [
+      "bus_cls",
+      "appendix_cls",
+      "bus_seg",
+      "fetal_seg",
+      "camus",
+      "ceus_breast"
+    ],
+    "collect": [
+      "bus_cls",
+      "appendix_cls",
+      "bus_seg",
+      "fetal_seg",
+      "camus",
+      "ceus_breast"
+    ],
+    "evaluate": [
+      "bus_cls",
+      "appendix_cls",
+      "bus_seg",
+      "fetal_seg",
+      "camus",
+      "ceus_breast",
+      "echonet",
+      "ceus_liver",
+      "ceus_thyroid"
+    ],
+    "expand_old": [
+      "bus_cls",
+      "appendix_cls",
+      "bus_seg",
+      "fetal_seg",
+      "camus",
+      "ceus_breast"
+    ],
+    "expand_new": [
+      "ceus_liver"
+    ]
+  },
+  "protocol_note": "Optional object-state reader: decoder query propagation and predicted foreground/background memory; SAM2 backbone retained. Compare all four reader arms before claiming improvement.",
+  "object_study": {
+    "arms": [
+      "native",
+      "query",
+      "object",
+      "combined"
+    ]
+  }
+}

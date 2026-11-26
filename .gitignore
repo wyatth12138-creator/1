@@ -1,0 +1,50 @@
+# Local data, manifests, model weights, and generated outputs
+/data/
+/datasets/
+/manifests/
+/run/
+/runs/
+/outputs/
+/logs/
+/checkpoint/
+/checkpoints/
+/pre_checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.bin
+*.pkl
+*.npy
+*.npz
+*.nii
+*.nii.gz
+*.dcm
+*.jsonl
+*.log
+
+# Upstream placeholders and unused training example
+/model/vendor/sam2/sam2_hiera_*.yaml
+/model/vendor/sam2/configs/sam2.1_training/sam2.1_hiera_b+_MOSE_finetune.yaml
+
+# Python and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+/build/
+/dist/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

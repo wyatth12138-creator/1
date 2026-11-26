@@ -1,0 +1,16 @@
+# Install a CUDA-enabled PyTorch build appropriate to the machine separately.
+torch>=2.4.1
+torchvision>=0.19.1
+numpy>=1.24
+Pillow>=10
+hydra-core>=1.3.2
+iopath>=0.1.10
+PyYAML>=6
+# Optional HD95 calculation and unit-test execution.
+scipy>=1.10
+pytest>=8
+
+# Used by SAM2 I/O and checkpoint locking.
+portalocker>=2
+tqdm>=4
+typing_extensions>=4
